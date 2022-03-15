@@ -1,4 +1,5 @@
-#"Whats the ~th number of the Fibonacci sequence? This script will tell you"
+#The program should ask the user to provide an input n and displays the summation value up to that nth number in the series. 
+#For instance, if input is provided as 7 (n=7) then the displayed value is 20.
 
 x = int(input("Enter a number to find its Fibonacci sequence: "))
  
