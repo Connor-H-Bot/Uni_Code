@@ -1,0 +1,34 @@
+.grey_background {
+    background: rgb(179, 179, 179);
+  }
+.bold_text {
+    font-weight: bold;
+}
+.match_won {
+    background: rgb(183, 207, 148)
+}
+.match_lost {
+    background: rgb(219, 153, 153)
+}
+.first_tag {
+    background: gold;
+    text-align: center;
+    font-weight: bold;
+}
+.second_tag {
+    background: silver;
+    text-align: center;
+    font-weight: bold;
+}
+.third_tag {
+    background: rgb(219, 116, 31);
+    text-align: center;
+    font-weight: bold;
+}
+.placed_tag {
+    text-align: center;
+    font-weight: bold;
+}
+.centre_text {
+    text-align: center;
+}
