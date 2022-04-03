@@ -106,3 +106,21 @@ def check_temperature(temperature, limit):
         return True
     else:
         return False
+    
+#12: comp strings. If first letter matches pick longer string. Else, pick str with last letter closest to z
+def compare_strings(string1, string2):
+    string1_list = list(string1)
+    string2_list = list(string2)
+    if ((string1_list[0] == string2_list[0]) and (len(string1_list) == len(string2_list))) \
+    or ((string1_list[0] != string2_list[0]) and (string1_list[len(string1_list) -1] == string2_list[len(string2_list) -1])):
+        return "error"
+    elif string1_list[0] == string2_list[0]: #if first letters match pick longer string
+        if len(string1_list) > len(string2_list):
+            return string1
+        else:
+            return string2
+    else:
+        if string1_list[len(string1_list) -1] > string2_list[len(string2_list) -1]:
+            return string1
+        else:
+            return string2
