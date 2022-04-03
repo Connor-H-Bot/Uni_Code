@@ -1,4 +1,6 @@
-#1: Take user input and tell them if the number is positive, negative, or 0
+#No modules allowed
+
+#1: Take user input and tell them if the number is positive, negative, or 0 
 userInput = input()
 
 def my_abs(userInput):
