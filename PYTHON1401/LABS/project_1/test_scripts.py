@@ -32,13 +32,57 @@ def make_2d(list):
             new_2D_index += 1
             facial_point_index += 1  
         input_list_index += 1
-    return True #return value to stop printing    
+    return True #return true to avoid printing whole thing   
 
 # Calibrate data and perform asymmetry analysis
 def asymmetry_analysis(list_in_2d):
     float_list = [[float(element) for element in list_inner] for list_inner in list_in_2d] #convert all numbers to floats
-    if (float_list[9][0] and float_list[9][1] and float_list[9][2]) == 0: #if nose is already 0 do not calibrate
-        return float_list
+    asymmetry_analysis_list = [] #Store values for each facial points analysis
+    if (float_list[9][0] or float_list[9][1] or float_list[9][2]) != 0: #Check if nose has any values != 0
+        x_offset, y_offset, z_offset = float_list[9][0], float_list[9][1], float_list[9][2]
+        del float_list[9]
+        for index in range(len(float_list)):
+            float_list[index][0] -= x_offset
+            float_list[index][1] -= y_offset
+            float_list[index][2] -= z_offset
+    else: #remove nose elements from list
+        del float_list[9]
+    analysis_index = 0
+    while analysis_index < len(float_list): #Iterate through entire list and use asymmetry formula for each point
+        x_value, y_value, z_value = float_list[analysis_index][0], float_list[analysis_index][1], float_list[analysis_index][2]
+        asymmetry_analysis_list.append((x_value**2 + y_value**2 + z_value**2) ** 0.5) #sqrt(x^2 + y^2 + z^2)
+        analysis_index += 1
+    return asymmetry_analysis_list
+
+# Return 2x values, lowest asymmetry values for upper and lower face
+def get_min_asymmetry(asymmetry_analysis_list):
+    min_asymmetry = []  
+    for index in range(len(asymmetry_analysis_list)):
+        current_number = asymmetry_analysis_list[index]
+        if index < 5:
+            if current_number > asymmetry_analysis_list[index + 1]:
+                min_asymmetry[0] = current_number
+        if index > 5:
+            if current_number > asymmetry_analysis_list[index + 1]:
+                min_asymmetry[1] = current_number
+    return min_asymmetry  
+
+# Return 2x values, lowest asymmetry values for upper and lower face
+def get_max_asymmetry(asymmetry_analysis_list):
+    max_asymmetry = [] 
+    return
+
+# Return 2x values, lowest asymmetry values for upper and lower face
+def get_avg_asymmetry(asymmetry_analysis_list):
+    avg_asymmetry = []  
+    return
+
+# Return 2x values, lowest asymmetry values for upper and lower face
+def get_stddev_asymmetry(asymmetry_analysis_list):
+    stddev_asymmetry = [] 
+    return
+
+print(get_min_asymmetry([3.1383725030943417, 3.8951716918507517, 4.083771247610689, 3.2533008074832215, 1.2949654758688547, 3.1759220224928937, 2.7899458412031803, 3.319477928377509, 2.7003713645071215]))
 
 print(asymmetry_analysis([['-0.98523866', '0.758461395', '-0.74612129'], \
     ['0.90410184', '0.713141558', '-0.716118938'], \
