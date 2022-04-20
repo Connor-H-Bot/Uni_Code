@@ -54,35 +54,92 @@ def asymmetry_analysis(list_in_2d):
         analysis_index += 1
     return asymmetry_analysis_list
 
-# Return 2x values, lowest asymmetry values for upper and lower face
+##FUFAHJSFJKASFJKLASFJKSAFJKLFSAJKLFJKHFASJHKASLFJKSFAJKSAFJKHASFJHFSAJHHSFAHASFHJKHSAFKJKJSAF
+# Return 2x values, lowest asymmetry values for upper and lower face **FIX THIS **
 def get_min_asymmetry(asymmetry_analysis_list):
-    min_asymmetry = []  
+    min_asymmetry = [0.0, 0.0]  
     for index in range(len(asymmetry_analysis_list)):
         current_number = asymmetry_analysis_list[index]
         if index < 5:
-            if current_number > asymmetry_analysis_list[index + 1]:
+            if (current_number < asymmetry_analysis_list[index + 1]) and (current_number < min_asymmetry[0]):
                 min_asymmetry[0] = current_number
-        if index > 5:
-            if current_number > asymmetry_analysis_list[index + 1]:
+        if (index >= 5) and (index < len(asymmetry_analysis_list)):
+            if current_number < asymmetry_analysis_list[index + 1]:
                 min_asymmetry[1] = current_number
-    return min_asymmetry  
+    return min_asymmetry 
+
+def get_min_asymmetry2(asymmetry_list):
+    min_asymmetry = [0.0, 0.0] 
+    first_half = []
+    second_half = []
+    index = 0
+    while index < 5:
+        first_half.append(asymmetry_list)
+        index += 1
+    while (index > 5) and (index < len(asymmetry_list)):
+        second_half.append(asymmetry_list[index])
+        index += 1
+
+
 
 # Return 2x values, lowest asymmetry values for upper and lower face
 def get_max_asymmetry(asymmetry_analysis_list):
-    max_asymmetry = [] 
-    return
+    max_asymmetry = [0.0, 0.0]  
+    for index in range(len(asymmetry_analysis_list)):
+        current_number = asymmetry_analysis_list[index]
+        first_half_rules = [(index < 4) and (asymmetry_analysis_list[index + 1] < current_number > max_asymmetry[0])]
+        second_half_rules = [4 < index < 8 and max_asymmetry[1] < current_number > asymmetry_analysis_list[index + 1]]
+        if all(first_half_rules):
+            max_asymmetry[0] = current_number
+        if (index == 4) and (current_number > max_asymmetry[0]):
+            max_asymmetry[0] = current_number
+        if all(second_half_rules):
+            max_asymmetry[1] = current_number
+        if (index == 8) and (current_number > max_asymmetry[1]):
+            max_asymmetry[1] = current_number
+    return max_asymmetry  
 
 # Return 2x values, lowest asymmetry values for upper and lower face
 def get_avg_asymmetry(asymmetry_analysis_list):
-    avg_asymmetry = []  
-    return
+    avg_asymmetry = [0.0, 0.0]
+    for index in range(len(asymmetry_analysis_list)):
+        if index < 5:
+            avg_asymmetry[0] += asymmetry_analysis_list[index]
+            if index == 4:
+                avg_asymmetry[0] /= 5
+        if index > 4 and index < len(asymmetry_analysis_list):
+            avg_asymmetry[1] += asymmetry_analysis_list[index]
+            if index == 8:
+                avg_asymmetry[1] /= 4
+    return avg_asymmetry
+
+#round all numbers in a 1d list
+def list_rounder_1d(list_to_round):
+    list_rounded = []
+    for index in range(len(list_to_round)):
+        list_rounded.append(round(list_to_round[index], 4))
+        index += 1
+    return list_rounded
+
+#round all numbers in a list
+def list_rounder_2d(list_to_round):
+    list_rounded_2d = [[0] * 3 for i in range(9)] 
+    for index in range(len(list_to_round)):
+        list_rounded_2d[index][0] = round(list_to_round[index][0], 4)
+        list_rounded_2d[index][1] = round(list_to_round[index][1], 4)
+        list_rounded_2d[index][2] = round(list_to_round[index][2], 4)
+        index += 1
+    return list_rounded_2d
 
 # Return 2x values, lowest asymmetry values for upper and lower face
 def get_stddev_asymmetry(asymmetry_analysis_list):
     stddev_asymmetry = [] 
     return
 
-print(get_min_asymmetry([3.1383725030943417, 3.8951716918507517, 4.083771247610689, 3.2533008074832215, 1.2949654758688547, 3.1759220224928937, 2.7899458412031803, 3.319477928377509, 2.7003713645071215]))
+#print(list_rounder_1d([3.1383725030943417, 3.8951716918507517, 4.083771247610689, 3.2533008074832215, 1.2949654758688547, 3.1759220224928937, 2.7899458412031803, 3.319477928377509, 2.7003713645071215]))
+
+print(get_max_asymmetry([3.1383725030943417, 3.8951716918507517, 4.083771247610689, 3.2533008074832215, 1.2949654758688547, 3.1759220224928937, 2.7899458412031803, 3.319477928377509, 2.7003713645071215]))
+
 
 print(asymmetry_analysis([['-0.98523866', '0.758461395', '-0.74612129'], \
     ['0.90410184', '0.713141558', '-0.716118938'], \
