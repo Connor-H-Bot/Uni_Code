@@ -27,7 +27,7 @@ def main(csvfile, adults, type):
         a1_converted, a2_converted = make_2d(a1_output), make_2d(a2_output)
         a1_analysis, a2_analysis = asymmetry_analysis(a1_converted), asymmetry_analysis(a2_converted)
         adults_corr = get_correlation(a1_analysis, a2_analysis)
-        return round(adults_corr, 4)
+        return adults_corr
     else: 
         print("Error: Please check the input arguments")
         return
@@ -164,16 +164,17 @@ def list_rounder(list_to_round):
         index += 1
     return list_rounded
 
+# Function to calculate correlation using r = ... formula. 
 def get_correlation(adult_1_asymmetry, adult_2_asymmetry):
-    adult_1_avg, adult_2_avg, eq_numerator, x_denominator, y_denominator = 0, 0, 0, 0, 0
+    adult_1_avg, adult_2_avg, eq_numerator, x_denominator, y_denominator = 0, 0, 0, 0, 0 #X and Y denoms represent denoms in correlation formula
     for index in range(len(adult_1_asymmetry)):
-        adult_1_avg += adult_1_asymmetry[index]
+        adult_1_avg += adult_1_asymmetry[index] 
         adult_2_avg += adult_2_asymmetry[index]
-    adult_1_avg /= len(adult_1_asymmetry)
+    adult_1_avg /= len(adult_1_asymmetry)   #Find the average of the value set
     adult_2_avg /= len(adult_2_asymmetry)
-    for index in range(len(adult_1_asymmetry)):
-        eq_numerator += (adult_1_asymmetry[index] - adult_1_avg) * (adult_2_asymmetry[index] - adult_2_avg)
-        x_denominator += (adult_1_asymmetry[index] - adult_1_avg) ** 2
-        y_denominator += (adult_2_asymmetry[index] - adult_2_avg) ** 2
-    correlation = eq_numerator / (x_denominator * y_denominator) ** 0.5
-    return correlation
+    for index in range(len(adult_1_asymmetry)): 
+        eq_numerator += (adult_1_asymmetry[index] - adult_1_avg) * (adult_2_asymmetry[index] - adult_2_avg) #Sum of all numerator values
+        x_denominator += (adult_1_asymmetry[index] - adult_1_avg) ** 2 #Sum denom X values
+        y_denominator += (adult_2_asymmetry[index] - adult_2_avg) ** 2 #Sum denom Y values
+    correlation = eq_numerator / (x_denominator * y_denominator) ** 0.5 #numerator / sqrt(x_summ^2 * y_summ^2)
+    return round(correlation, 4) #returns rounded value
