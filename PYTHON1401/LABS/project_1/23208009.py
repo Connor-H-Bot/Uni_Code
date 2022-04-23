@@ -149,34 +149,34 @@ def get_stddev(avg_asymmetry, asymmetry_3d): #requires average asymmetry for the
     upper_mean, lower_mean = avg_asymmetry[0], avg_asymmetry[1] #Stores averages as two floats instead of accessing the list each time
     upper_face_values, lower_face_values = asymmetry_3d[0:5], asymmetry_3d[5:9] #Breaks asymmetry list into two smaller lists, upper & lower face
     upper_devs, lower_devs = 0, 0
-    for index in range(len(upper_face_values)):
+    for index in range(len(upper_face_values)): #Calculates and adds deviations from the mean for upper and lower face at the same time
         if index < 5:
             upper_devs += (upper_face_values[index] - upper_mean)**2
         if index < 4:
             lower_devs += (lower_face_values[index] - lower_mean)**2
-    standard_deviations.append((upper_devs / len(upper_face_values))**0.5)
+    standard_deviations.append((upper_devs / len(upper_face_values))**0.5) 
     standard_deviations.append((lower_devs / len(lower_face_values))**0.5)
     return list_rounder(standard_deviations) #Round list values as they are not used for further calculations
 
-# Function to round all numbers in a 1d list
-def list_rounder(list_to_round):
-    list_rounded = []
-    for index in range(len(list_to_round)): #iterate through every index
-        list_rounded.append(round(list_to_round[index], 4))
-        index += 1
-    return list_rounded
-
-# Function to calculate correlation using r = ... formula. 
+# Function to calculate correlation using r = ... formula. Takes asymmetry calculations of both adults. 
 def get_correlation(adult_1_asymmetry, adult_2_asymmetry):
-    adult_1_avg, adult_2_avg, eq_numerator, x_denominator, y_denominator = 0, 0, 0, 0, 0 #X and Y denoms represent denoms in correlation formula
-    for index in range(len(adult_1_asymmetry)):
-        adult_1_avg += adult_1_asymmetry[index] 
+    adult_1_avg, adult_2_avg, eq_numerator, x_denominator, y_denominator = 0, 0, 0, 0, 0 #X and Y denoms represent denominations in correlation formula
+    for index in range(len(adult_1_asymmetry)): #Calculate the averages (mean) for the entire set instead of upper and lower face being seperate
+        adult_1_avg += adult_1_asymmetry[index]  
         adult_2_avg += adult_2_asymmetry[index]
-    adult_1_avg /= len(adult_1_asymmetry)   #Find the average of the value set
+    adult_1_avg /= len(adult_1_asymmetry)  
     adult_2_avg /= len(adult_2_asymmetry)
-    for index in range(len(adult_1_asymmetry)): 
+    for index in range(len(adult_1_asymmetry)): #Sum he numerator and two denominator values
         eq_numerator += (adult_1_asymmetry[index] - adult_1_avg) * (adult_2_asymmetry[index] - adult_2_avg) #Sum of all numerator values
         x_denominator += (adult_1_asymmetry[index] - adult_1_avg) ** 2 #Sum denom X values
         y_denominator += (adult_2_asymmetry[index] - adult_2_avg) ** 2 #Sum denom Y values
-    correlation = eq_numerator / (x_denominator * y_denominator) ** 0.5 #numerator / sqrt(x_summ^2 * y_summ^2)
-    return round(correlation, 4) #returns rounded value
+    correlation = eq_numerator / (x_denominator * y_denominator) ** 0.5 #eq_numerator / sqrt(x_summ^2 * y_summ^2)
+    return round(correlation, 4) #Round list values as they are not used for further calculations
+
+# Take a 1d list as input and round all elements to 4 decimal places
+def list_rounder(list_to_round):
+    list_rounded = []
+    for index in range(len(list_to_round)): 
+        list_rounded.append(round(list_to_round[index], 4)) #Does not change order
+        index += 1
+    return list_rounded 
