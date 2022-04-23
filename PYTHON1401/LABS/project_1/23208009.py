@@ -11,20 +11,28 @@
 #       -corr - Perform correlation analysis of the two specified adults with a list.
 
 def main(csvfile, adults, type):
-    if type == 'stats' and isinstance(adults, str): #Check if input is stats and user input a string
+    stats_rules = [type == 'stats' and isinstance(adults, str)] # == True if conditions for stats input are satisfied
+    corr_rules = [type == 'corr' and isinstance(adults, list) and len(adults) == 2] # == True if conditios for correlation input satisfied
+    if all(stats_rules): #Check if input is stats and user input a string
         file_output = get_adult(csvfile, adults)
         output_converted = make_2d(file_output)
         asym3d1 = asymmetry_analysis(output_converted)
         mn1 = get_min_asymmetry(asym3d1)
         mx1 = get_max_asymmetry(asym3d1)
         avg1 = get_avg_asymmetry(asym3d1)
-        std1 = False 
-        return list_rounder(asym3d1), mn1, mx1, avg1, std1
-    elif type == 'corr' and isinstance(adults, list): #Check if type is corr and user input a list
-        return False
+        std1 = get_stddev(avg1, asym3d1)
+        return asym3d1, mn1, mx1, avg1, std1
+    elif all(corr_rules): #Check if type is corr and user input a list
+        a1_output, a2_output = get_adult(csvfile, adults[0]), get_adult(csvfile, adults[1])
+        a1_converted, a2_converted = make_2d(a1_output), make_2d(a2_output)
+        a1_analysis, a2_analysis = asymmetry_analysis(a1_converted), asymmetry_analysis(a2_converted)
+        adults_corr = get_correlation(a1_analysis, a2_analysis)
+        return round(adults_corr, 4)
     else: 
-        return False 
+        print("Error: Please check the input arguments")
+        return
     
+# Create profile
 
 #Retrieves selected adult from the csvfile. 
 #Reads line by line, so it works if theres gaps between required rows
@@ -43,14 +51,14 @@ def get_adult(filename, substring):
 
 #convert selected adult data into a 2D list
 def make_2d(list):
-    list_in_2d = [[0] * 3 for i in range(10)] #initialise 2d list (3x, 10y)
+    list_in_2d = [[0] * 4 for i in range(10)] #initialise 2d list (3x, 10y)
     input_list_index = 0                      #index counter for input array
     while input_list_index < len(list): 
-        new_2D_index, facial_point_index = 0, 2
+        new_2D_index, facial_point_index = 0, 1
         facial_point_iteration = list[input_list_index]            #create instance variable to a single facial points x,y,z values
         facial_point_iteration = facial_point_iteration.replace('\n', '')
         facial_point_iteration = facial_point_iteration.split(',') #remove carriage return and split using commas
-        while new_2D_index < 3:
+        while new_2D_index < 4:
             list_in_2d[input_list_index][new_2D_index] = facial_point_iteration[facial_point_index]
             new_2D_index += 1
             facial_point_index += 1  
@@ -60,6 +68,9 @@ def make_2d(list):
 # Calibrate data and perform asymmetry analysis
 def asymmetry_analysis(list_in_2d):
     float_list = [[float(element) for element in list_inner] for list_inner in list_in_2d] #convert all numbers to floats
+    float_list.sort(key=lambda float_list: (float_list[0])) #Sort list by face value points
+    for index in range(len(float_list)): #Remove face value points
+        del float_list[index][0]
     asymmetry_analysis_list = [] #list to store values for each facial points analysis
     is_nosevalue_nonzero = [float_list[9][0] or float_list[9][1] or float_list[9][2] != 0] #returns true if nose offset is needed
     if  all(is_nosevalue_nonzero): #When nose offset needed
@@ -130,6 +141,21 @@ def get_avg_asymmetry(asymmetry_analysis_list):
                 rounded_avg_asymmetry.append(round(avg_asymmetry[1], 4))
     return list_rounder(avg_asymmetry)
 
+# Get standard deviation
+def get_stddev(avg_asymmetry, asymmetry_3d):
+    standard_deviations = []
+    upper_mean, lower_mean = avg_asymmetry[0], avg_asymmetry[1]
+    upper_face_values, lower_face_values = asymmetry_3d[0:5], asymmetry_3d[5:9]
+    upper_devs, lower_devs = 0, 0
+    for index in range(len(upper_face_values)):
+        if index < 5:
+            upper_devs += (upper_face_values[index] - upper_mean)**2
+        if index < 4:
+            lower_devs += (lower_face_values[index] - lower_mean)**2
+    standard_deviations.append((upper_devs / len(upper_face_values))**0.5)
+    standard_deviations.append((lower_devs / len(lower_face_values))**0.5)
+    return list_rounder(standard_deviations)
+
 # Function to round all numbers in a 1d list
 def list_rounder(list_to_round):
     list_rounded = []
@@ -138,4 +164,16 @@ def list_rounder(list_to_round):
         index += 1
     return list_rounded
 
-print(main('asymmetry_sample.csv', 'C4996', 'stats'))
+def get_correlation(adult_1_asymmetry, adult_2_asymmetry):
+    adult_1_avg, adult_2_avg, eq_numerator, x_denominator, y_denominator = 0, 0, 0, 0, 0
+    for index in range(len(adult_1_asymmetry)):
+        adult_1_avg += adult_1_asymmetry[index]
+        adult_2_avg += adult_2_asymmetry[index]
+    adult_1_avg /= len(adult_1_asymmetry)
+    adult_2_avg /= len(adult_2_asymmetry)
+    for index in range(len(adult_1_asymmetry)):
+        eq_numerator += (adult_1_asymmetry[index] - adult_1_avg) * (adult_2_asymmetry[index] - adult_2_avg)
+        x_denominator += (adult_1_asymmetry[index] - adult_1_avg) ** 2
+        y_denominator += (adult_2_asymmetry[index] - adult_2_avg) ** 2
+    correlation = eq_numerator / (x_denominator * y_denominator) ** 0.5
+    return correlation
