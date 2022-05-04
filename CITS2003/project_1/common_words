@@ -1,0 +1,85 @@
+#!/bin/bash
+#Author: Connor Harris 23208009
+#   This is a shell script made to search through all the files in a specified folder and return:
+#   -By default (with no input besides the path to folder) return the most used word
+#   -nth X will return the x most used word
+#   -if X is out of bounds for the word count, the script returns the final (least used) value
+#   -w keyWord will return the text that uses keyWord the most frequently
+
+#Find the file with the most used keyword
+if [[ ! -z $1,$2,$3 && $1 == "-w" ]]; then 
+touch "text_file_list" | touch "current_book" | touch "wordlist" | grep -l $2 $3/* >> text_file_list 
+number_of_files=$(wc -l text_file_list | tr -d ' ' | sed 's/[^0-9]*//g')
+index=1
+current_highest_frequency=10000 #create a highest frequency number to save computing power (see rest on line 31)
+while [[ $index -lt $(($number_of_files+1)) ]] #while index is in range
+do
+    current_file=$(head -n $index text_file_list | tail -n 1) #get current file path
+    #create one line for each word, remove non alphanumerics, count/process words and output into a temp file
+    cat $current_file | tr '\n' ' ' | tr -cd '[:alnum:] -' | tr ' ' '\n' | sed '/^[[:space:]]*$/d' | sort | uniq -c | sort -nr | sed -e 's/^[ \t]*//' > current_book
+    current_book_index=1
+    current_line=$(head -n $current_book_index current_book | tail -n 1 | tr -d [0-9] | tr -d ' ') #get one line from the book containing only letters
+    current_book_length=$(wc -l current_book | tr -d ' ' | sed 's/[^0-9]*//g') #length of the book for the loop
+    #while the current word is not the keyWord, index is less than the length of the book, and long loop catch is in place
+    while [[ "$current_line" != "$2" && $current_book_index -lt $current_book_length && $current_book_index -lt $current_highest_frequency ]]
+    do
+        current_book_index=$(($current_book_index+1)) #
+        current_line=$(head -n $current_book_index current_book | tail -n 1 | tr -d [0-9] | tr -d ' ') #move onto the next line of the book
+    done
+    if [[ "$current_line" == "$2" ]]; then #when the line found matches the keyWord
+        line_found=$(grep -w $2 current_book) #get the line and save its number
+        #highest frequency is used to stop the loop from searching past the current highest rank. Once a freq is detected, it can only get lower (higher in rank)
+        current_highest_frequency=$(($current_book_index))
+        echo $line_found $current_book_index $current_file >> wordlist #put the parameters into another temp list
+        echo "Match found for \"$2\" at line $current_book_index in $current_file. Please wait. " #output to let the user know the loop is still working
+    fi
+    index=$(($index+1))
+done
+echo "Search complete"
+final_word_rank=$(cat wordlist | tr ' ' ',' | sort -nrk 3 | head -n 1 | cut -d ',' -f 3) #get the frequency
+final_word_file=$(cat wordlist | tr ' ' ',' | sort -nrk 3 | head -n 1 | tr ',' ' ' | awk '{print $NF}') #get the last column which will be the file location
+echo "The most significant rank of \"$2\" was $final_word_rank in $final_word_file" #paste the file with the most frequently used keyword
+rm text_file_list | rm current_book | rm wordlist 
+exit 0
+
+#Find the nth most commonly used word.
+#Checks if ($1 not empty, $2 empty) OR ($1 not empty, $3 not empty, and $1 is the -nth argument)
+elif [[ ! -z $1 && -z $2 && -d $1 && -z $3 ]] || [[ ! -z $1 && ! -z $3 && $1 == "-nth" ]]; then
+    if [[ -d $1 ]]; then #if the first argument was the folder
+        folder=$1/
+    fi
+    else #the third arguments the folder
+        folder=$3/
+    fi 
+    #Create the required text files, and then search the nominated directory for all txt files
+    touch "text_files_list" | touch "all_words_list" | touch "most_used_words" | find $folder -name \*.txt > text_files_list
+    number_of_files=$(wc -l text_files_list | tr -d ' ' | sed 's/[^0-9]*//g') #return just the number of files for counting
+    index=1 
+    max_index=$(($number_of_files+1))
+    while [[ $index -lt $max_index ]] #while loop is less than the number of files to search + 1
+    do
+        txt_file_path=$(head -n $index text_files_list | tail -n 1 | tr -d ' ') #obtain the file path
+        #get the file, remove special characters, and give each word its own line
+        cat "$txt_file_path" | tr '\n' ' ' | tr -cd '[:alnum:] -' | tr ' ' '\n' | sed '/^[[:space:]]*$/d' >> all_words_list 
+        index=$(($index+1)) #add another to the index to continue
+    done
+    #sort through the file containing one word per line from every text, and count the words
+    cat all_words_list | sort | uniq -c | sort -nr | tr ' ' '\n' | sed '/^[[:space:]]*$/d' >> most_used_words 
+    if [[ -z $2 ]]; then #if there was no argument besides the directory, show the first most used word
+        most_used_word=$(head -n 2 most_used_words | tail -n 1)
+        echo "We checked $number_of_files files... and the most common word was \"$most_used_word\"!"
+    else #the argument was for the Nth most used word
+        get_nth=$((2*$2))
+        most_used_word=$(head -n $get_nth most_used_words | tail -n 1)
+        echo "After looking at $number_of_files files, the $2th most used word is \"$most_used_word\"!"
+    fi
+    rm text_files_list | rm all_words_list | rm most_used_words #delete all the files created 
+    exit 0
+else
+    if [[ -z $1 ]]; then #no argument file
+        echo "ERROR: To run this script, please specify:"
+        echo "path/to/files     to find the most used word in the folder"
+        echo "-nth X path/to/files  to find Xth most used word in the folder"
+        echo "-w X path/to/files   to find which file uses X the most frequently"
+    fi
+fi
