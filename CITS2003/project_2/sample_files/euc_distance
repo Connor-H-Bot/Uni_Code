@@ -1,0 +1,15 @@
+#!/bin/bash
+#Author: Connor Harris 23208009
+
+#normalise results
+
+
+#get the overall word count
+word_count=$(grep -w "word" $1 | tr -d 'word ')
+sentence_count=$(grep "sentence" euc_cal_1 | tr -d 'sentence ')
+words_per_sentence=$(($word_count / $sentence_count))
+words_to_normalise=$(grep -v "word" euc_cal_1 | grep -v "sentence" | sed 's/[^0-9]*//g') #call this with     | tr " " "\n"
+
+#letter/wordcount*1000
+
+awk "BEGIN {printf \"%.3f\n\", 4/$word_count*1000}"
