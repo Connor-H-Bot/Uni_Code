@@ -1,4 +1,0 @@
-#!/bin/bash
-#Author: Connor Harris 23208009
-
-source style_cmp $1
