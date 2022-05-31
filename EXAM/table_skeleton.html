@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head> 
+    <script>
+        function my_function() {
+        document.getElementById("change_main_background").classList.toggle('background_2'); /* toggle background */
+        document.getElementById("button_1").innerHTML="change text"; /* change text of declared button */
+        }
+        
+        function my_hover_function() { /* when hovering over something */
+        document.getElementById("button_1").innerHTML="hovering over this";
+        }
+        </script>
+    <style>
+        .background_1 {
+            background: green;
+        }
+        .background_2 {
+            background: red;
+        }
+        .center_button { /* perfectly centres button */
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            margin-right: -50%;
+            transform: translate(-50%, -50%) 
+        }
+        table, th, td {
+            border: 1px solid black;
+        }
+    </style>
+</head>
+<body>
+
+<div> 
+<h1>This is some text </h1>
+<table class="center_button">
+    <tr> <!--Table headers below (3x3)-->
+      <th>Company</th>
+      <th>Contact</th>
+      <th>Country</th>
+    </tr>
+    <tr>
+      <td>Alfreds Futterkiste</td>
+      <td>Maria Anders</td>
+      <td>Germany</td>
+    </tr>
+    <tr>
+      <td>Centro comercial Moctezuma</td>
+      <td>Francisco Chang</td>
+      <td>Mexico</td>
+    </tr>
+</table>
+
+</div>
+</body>
+</html> 

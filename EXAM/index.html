@@ -1,0 +1,187 @@
+<!-- Created by Connor Harris (23208009) for the CITS3403 Exam -->
+<!DOCTYPE html>
+<html lang="EN">
+
+<head>
+    <title>CITS3403 - Connor Harris - 23208009</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1"> 
+    <meta charset="UTF-8">
+    <!--Taskbar icon (favicon)-->
+    <link rel="icon" type="image/x-icon" href="pictures/favicon.ico">  
+    <!-- Import CSS code -->
+    <link rel="stylesheet" href="style.css"> 
+    <!-- Import local jscript -->
+    <script src="script.js"></script> 
+</head>
+
+<body>
+    <div id="page_header" class="center header_font grey_background">
+        <h1>CITS3403 - Connor Harris - 23208009</h1>
+    </div>
+    <div id="page_body" class="center weird_background">
+        <div>
+            <ul id="section_choice_list" class="sections_list">
+                <li>
+                    <a id="list_overview" class="current_list_item">
+                        Overview: Introduction
+                    </a>
+                </li>
+                <li>
+                    <a id="list_overview_rules" class="">
+                        Overview: Rules
+                    </a>
+                </li>
+                <li>
+                    <a id="list_client_side" class="">
+                        Client Side
+                    </a>
+                </li>
+                <li>
+                    <a id="list_server_side" class="">
+                        Server Side
+                    </a>
+                </li>
+                <li>
+                    <a id="list_software_process" class="">
+                        Software Process
+                    </a>
+                </li>
+            </ul> 
+        </div> 
+        <div id="section_overview">
+            <div id="overview_introduction_game_brief" class="section_body">
+                <h1>
+                    Overview: Game introduction
+                </h1>
+                <p class="text_left_alignment"> 
+                    For the main CITS3403 project, my group partner and I created a website called Trumpter. 
+                    The website presents you with two tweets each round, where one is authored by Donald Trump, and the other
+                    being a random celebrity. These celebrities include Kanye West, Soulja Boy, Ryan Reynolds, ect. <br>
+                    <br>
+                    So, <span>WHY</span> on earth would we make this? <br>
+                    Politics aside, most people would agree that Donald could say some outlandish things. 
+                    Now that he's served as a President, all of his tweets are historical documents. 
+                    Future generations may come to study some of Trumps writings in textbooks, or whatever platform schools may use to teach students. <br>
+                    <br>
+                </p>
+                <picture>
+                    <img src="pictures/trumpter_introduction.png" alt="Trumpter Website homepage" width="855" height="500">
+                </picture>
+            </div>
+            <div id="overview_introduction_game_rules" class="section_body no_display">
+                <h1>
+                    Overview: Game Rules
+                </h1>
+                <p class="text_left_alignment"> 
+                    -You play 5x rounds, with each round presenting two tweets. One is Trumps, the other is random. <br>
+                    -<span>CLICK</span> the tweet you think is Trumps. <br>
+                    -In order to win, score 5/5 <br>
+                    -A <span>STREAK</span> is formed by getting a win, and can continue as long as the player gets all guesses correct. <br>
+                    -A <span>STREAK</span> is broken by getting one or more tweets wrong each game. 
+                    -If one of the first four tweets is guessed incorrectly, you have the reset option at the top right to start that game again. <br>
+                    -Restarting won't ruin your streak, but it will show you new tweets. 
+                </p>
+                <picture>
+                    <img src="pictures/cut_selection.gif" alt="Trumpter Website homepage" width="855" height="500">
+                </picture>
+            </div>
+        </div>
+        <div id="section_client-side" class="section_body no_display">
+            <div id="section_client_side_brief" class="section_body">
+                <h1>
+                    Client Side Architecture
+                </h1>
+                <p class="text_left_alignment">
+                    Trumpter’s client side consists of <span>HTML</span>, <span>Javascript</span>, and <span>CSS</span>. <br>
+                    <br>
+                    Using <span>HTML</span> for structuring the page, the <span>DOM</span> content is easily modified as required for gameplay. <br>
+                    <br>
+                    <span>CSS</span> is used to make the website look appealing, while also providing functionality such as animations & 
+                    adjusting the placement/sizing of elements depending on the webpage width. <br>
+                    <br>
+                    Finally, <span>JS</span> provides core functionality & game logic. 
+                    There’s no <span>JS</span> included in the <span>HTML</span> such as buttons with “onclick()” - 
+                    as this is replaced by mouselistener events implemented over DIVs. 
+                    <span>JS</span> variables actively hold the score, call new tweets, populate tweets, and manipulate the <span>DOM</span> as needed.  <br>
+                    <br>
+                </p>
+                <!-- todo -->
+                <div id="myDIV" class="header">
+                    <h2>Client-side issues:</h2>
+                    <input id="input_task" placeholder="#TODO">
+                    <button onclick="newElement()">
+                        Add task
+                    </button>
+                </div>
+                <ul id="tasks_list">
+                    <li>Hit the gym</li>
+                    <li>Pay bills</li>
+                    <li>Meet George</li>
+                    <li>Buy eggs</li>
+                    <li>Read a book</li>
+                    <li>Organize office</li>
+                </ul> <br>
+                <h3>
+                    Alternative presentation:
+                </h3>
+                <p class="text_left_alignment">
+                    The best alternative presentation theme for Trumpter would be a light mode. <br>
+                    <span>WHY?</span> To start with, Twitter's default view is light mode. <br>
+                </p> <br>
+                <picture>
+                    <img src="pictures/deleted_tweet_light.png" alt="Deleted_trump_tweet" width="589" height="174" ALIGN="right">
+                </picture>
+                <p class="text_left_alignment">
+                    Trumpters early designs featured this colour scheme, but as both of us preferred dark mode on our browsers 
+                    (dark mode is ineffective on files) we opted to create the whole website to be less harsh on the eyes. <br>
+                    For Tweets, a pristine white such as rgb(255, 255, 255) would be used in tandem with a grey such as #b9b9b9. 
+                    Content outside the tweets would employ a soft off-white colouring and a tasteful thickness on the border/margin lines. 
+                </p>
+                <h4>
+                    Server-side vs Client-side rendering:
+                </h4>
+                <p class="text_left_alignment">
+                    Server-side rendering: <br>
+                        ~Advantages~ <br>
+                    -Incredibly difficult for users to skew results (compared to modifying the local client JS) <br>
+                    -Less content and bandwidth required for users with poor internet connections <br>
+                    -Better for SEO (search engine optimisation) <br>
+                    -Inner workings of website code are obfuscated. <br>
+                        ~Disadvantages~ <br>
+                    -Running scripts on your server sucks up resources. In the event of a DDOS or Slowloris attack, this is significantly leveraged
+                    making it easier to perform these attacks. <br>
+                    -Pages need to be refreshed to show new content, compared to a Javascript DOM manipulation live. 
+                </p>
+                <p class="text_left_alignment">
+                    Client-side rendering: <br>
+                        ~Advantages~ <br>
+                    -Faster to load a website, and less stress on server side resources <br>
+                    -Dynamically update content <br>
+                    -Enables tracking of users through techniques such as GPU fingerprinting (timing how long it takes to run a specific Jscript animation) <br>
+                        ~Disadvantages~ <br>
+                    -Without proper server side checks in place, users can manipulate data that will be sent back to the server (modifying game scores, ect) <br>
+                    -Anyone with the ability to press "F12" has the ability to see all of the websites code. 
+                </p>
+            </div>
+        </div>
+        <div id="section_server-side" class="section_body no_display">
+            <div id="section_server_side_brief" class="section_body">
+                <h1>
+                    Server-Side Architecture
+                </h1>
+                <p class="text_left_alignment">
+                    The server side architecture is almost entirely built from packages associated with Flask. <br>
+                    -A python file dedicated to routes connects webpage requests with the associated content. <br> 
+                    -SQLAlchemy allows access to the database, which contains tweets, user data, and accounts. <br>
+                    -<span>add more</span>
+                </p>
+                <!-- todo create another list here-->
+            </div>
+        </div>
+        <div id="section_software-process" class="section_body no_display">
+            <h1>Software-Process</h1>
+        </div>
+    </div>
+</body>
+
+</html>
