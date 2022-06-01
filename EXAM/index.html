@@ -15,12 +15,12 @@
 </head>
 
 <body>
-    <div id="page_header" class="center header_font grey_background">
+    <div id="page_header" class="center grey_background">
         <h1>CITS3403 - Connor Harris - 23208009</h1>
     </div>
     <div id="page_body" class="center weird_background">
         <div>
-            <ul id="section_choice_list" class="sections_list">
+            <ul id="section_choice_list" class="sections_list ">
                 <li>
                     <a id="list_overview" class="current_list_item">
                         Overview: Introduction
@@ -87,7 +87,7 @@
             </div>
         </div>
         <div id="section_client-side" class="section_body no_display">
-            <div id="section_client_side_brief" class="section_body">
+            <div id="section_client_side_brief">
                 <h1>
                     Client Side Architecture
                 </h1>
@@ -102,8 +102,7 @@
                     Finally, <span>JS</span> provides core functionality & game logic. 
                     There’s no <span>JS</span> included in the <span>HTML</span> such as buttons with “onclick()” - 
                     as this is replaced by mouselistener events implemented over DIVs. 
-                    <span>JS</span> variables actively hold the score, call new tweets, populate tweets, and manipulate the <span>DOM</span> as needed.  <br>
-                    <br>
+                    <span>JS</span> variables actively hold the score, call new tweets, populate tweets, and manipulate the <span>DOM</span> as needed.
                 </p>
                 <!-- todo -->
                 <div id="myDIV" class="header">
@@ -121,65 +120,197 @@
                     <li>Read a book</li>
                     <li>Organize office</li>
                 </ul> <br>
-                <h3>
+                <h3 class="center">
                     Alternative presentation:
                 </h3>
                 <p class="text_left_alignment">
                     The best alternative presentation theme for Trumpter would be a light mode. <br>
                     <span>WHY?</span> To start with, Twitter's default view is light mode. <br>
-                </p> <br>
+                </p> 
                 <picture>
-                    <img src="pictures/deleted_tweet_light.png" alt="Deleted_trump_tweet" width="589" height="174" ALIGN="right">
+                    <img src="pictures/deleted_tweet_light.png" alt="Deleted_trump_tweet" width="589" height="174" ALIGN="center">
                 </picture>
                 <p class="text_left_alignment">
                     Trumpters early designs featured this colour scheme, but as both of us preferred dark mode on our browsers 
                     (dark mode is ineffective on files) we opted to create the whole website to be less harsh on the eyes. <br>
                     For Tweets, a pristine white such as rgb(255, 255, 255) would be used in tandem with a grey such as #b9b9b9. 
-                    Content outside the tweets would employ a soft off-white colouring and a tasteful thickness on the border/margin lines. 
+                    Content outside the tweets would employ a soft off-white colouring and a tasteful thickness on the border/margin lines. <br>
+                    For these reasons, the classic white twitter look would have been a perfect match for an alternative website theme. <br> 
                 </p>
-                <h4>
-                    Server-side vs Client-side rendering:
-                </h4>
-                <p class="text_left_alignment">
-                    Server-side rendering: <br>
-                        ~Advantages~ <br>
-                    -Incredibly difficult for users to skew results (compared to modifying the local client JS) <br>
-                    -Less content and bandwidth required for users with poor internet connections <br>
-                    -Better for SEO (search engine optimisation) <br>
-                    -Inner workings of website code are obfuscated. <br>
-                        ~Disadvantages~ <br>
-                    -Running scripts on your server sucks up resources. In the event of a DDOS or Slowloris attack, this is significantly leveraged
-                    making it easier to perform these attacks. <br>
-                    -Pages need to be refreshed to show new content, compared to a Javascript DOM manipulation live. 
-                </p>
-                <p class="text_left_alignment">
-                    Client-side rendering: <br>
-                        ~Advantages~ <br>
-                    -Faster to load a website, and less stress on server side resources <br>
-                    -Dynamically update content <br>
-                    -Enables tracking of users through techniques such as GPU fingerprinting (timing how long it takes to run a specific Jscript animation) <br>
-                        ~Disadvantages~ <br>
-                    -Without proper server side checks in place, users can manipulate data that will be sent back to the server (modifying game scores, ect) <br>
-                    -Anyone with the ability to press "F12" has the ability to see all of the websites code. 
-                </p>
+                    <h4 class="center">
+                        Server-side vs Client-side rendering:
+                    </h4>
+                    <div class="left">
+                        <p class="text_left_alignment">
+                            Client-side rendering: <br>
+                                ~Advantages~ <br>
+                            -Faster to load a website, and less stress on server side resources <br>
+                            -Dynamically update content <br>
+                            -Enables tracking of users through techniques such as GPU fingerprinting (timing how long it takes to run a specific Jscript animation) <br>
+                                ~Disadvantages~ <br>
+                            -Without proper server side checks in place, users can manipulate data that will be sent back to the server (modifying game scores, ect) <br>
+                            -Anyone with the ability to press "F12" has the ability to see the webpage and JS source code. 
+                        </p>
+                    </div>
+                    <div class="right">
+                        <p class="text_left_alignment">
+                            Server-side rendering: <br>
+                                ~Advantages~ <br>
+                            -Incredibly difficult for users to skew results (compared to modifying the local client JS) <br>
+                            -Less content and bandwidth required for users with poor internet connections <br>
+                            -Better for SEO (search engine optimisation) <br>
+                            -Inner workings of website code are obfuscated. <br>
+                                ~Disadvantages~ <br>
+                            -Running scripts on your server sucks up resources. In the event of a DDOS or Slowloris attack, this is significantly leveraged
+                            making it easier to perform these attacks. <br>
+                            -Pages need to be refreshed to show new content, compared to a Javascript DOM manipulation live.
+                        </p> 
+                    </div>
             </div>
         </div>
         <div id="section_server-side" class="section_body no_display">
             <div id="section_server_side_brief" class="section_body">
-                <h1>
+                <h1 class="center">
                     Server-Side Architecture
                 </h1>
                 <p class="text_left_alignment">
                     The server side architecture is almost entirely built from packages associated with Flask. <br>
                     -A python file dedicated to routes connects webpage requests with the associated content. <br> 
                     -SQLAlchemy allows access to the database, which contains tweets, user data, and accounts. <br>
-                    -<span>add more</span>
-                </p>
+                    -Flask logins suppport the account creation & logins. This also validates the email input, and <br>
+                    makes the passwords stored a SHA-256 hash instead of plaintext. 
+                </p> <br>
                 <!-- todo create another list here-->
+                <div id="myDIV" class="header">
+                    <h2 class="center">
+                        Server-side issues and TODO:
+                    </h2>
+                    <input id="input_task" placeholder="#TODO">
+                    <button onclick="newElement()">
+                        Add task
+                    </button>
+                </div>
+                <ul id="tasks_list">
+                    <li>Hit the gym</li>
+                    <li>Pay bills</li>
+                    <li>Meet George</li>
+                    <li>Buy eggs</li>
+                    <li>Read a book</li>
+                    <li>Organize office</li>
+                </ul> <br>
+                <h2 class="center">
+                    Deployment and Scaling
+                </h2>
+                <p class="text_left_alignment">
+                    Once deployed, Trumpeter admins would need to complete the following tasks completed to handle scalability: <br>
+                    -Define what can and can <span>NOT</span> be cached. The majority of content posted from the server is static (such as tweets), which is fine to cache.  <br>
+                    -On the other hand, dynamic/encrypted content regarding the current user such as their game data cannot be cached.  <br>
+                    -Set up a POST method for users to submit tweets (currently set to admins) <br>
+                    -Set up dynamic webhosting that can adjust depending on users.  <br> 
+                </p> <br>
+                <h4 class="center">
+                    Cookies & tracking vs User accounts 
+                </h4>
+                <div class="left">
+                    <p class="text_left_alignment">
+                        Cookies & Tracking: <br>
+                            ~Advantages~ <br>
+                        -Creates a seamless way for users to keep track of their game records <br>
+                        -Data breach won't leak confidential info <br>
+                        -Stored in the client, less resource intensive <br>
+                            ~Disadvantages~ <br>
+                        -User can modify them <br> 
+                        -Current awareness of cookies and tracking are spreading, with the public looking negatively upon them. <br>
+                        -Marketing is somewhat difficult, as users are still technically anonymous. 
+                    </p>
+                </div>
+                <div class="right">
+                    <p class="text_left_alignment">
+                        User Accounts: <br>
+                            ~Advantages~ <br>
+                        -OPT in, so the user has a stronger trust in the website if they create an account. <br>
+                        -Easy to use their email and play habits for marketing. Email address directly links a person. <br>
+                            ~Disadvantages~ <br>
+                        -If the website is compromised, user emails are leaked (password hashes too, but not as much of an issue if its high level encryption such as SHA-256) <br>
+                        -Adds complexity to website design <br>
+                    </p> 
+                </div>
             </div>
         </div>
         <div id="section_software-process" class="section_body no_display">
-            <h1>Software-Process</h1>
+            <div id="section_software-process_brief" class="section_body">
+                <h1 class="center">
+                    Software Processes
+                </h1>
+                <p class="text_left_alignment">
+                    In order to develop the website, my group partner and I would hire either a full stack developer or solely backend, and work alongside them. <br>
+                    Since the website is basic, the budget would be around ~$15,000. This would involve a month of working with a developer, and enough money to keep 
+                    the server afloat for 3-6 months with a small-medium user base (up to 10,000 daily users). <br>
+                    During this period the ad revenue from the users would either keep the website afloat or sink it. <br>
+                    The two of us would then voluntarily maintain and update the site. <br>
+                </p> <br>
+                <!-- todo create another list here-->
+                <div id="myDIV" class="header">
+                    <h2 class="center">
+                        Server-side issues and TODO:
+                    </h2>
+                    <input id="input_task" placeholder="#TODO">
+                    <button onclick="newElement()">
+                        Add task
+                    </button>
+                </div>
+                <ul id="tasks_list">
+                    <li>Hit the gym</li>
+                    <li>Pay bills</li>
+                    <li>Meet George</li>
+                    <li>Buy eggs</li>
+                    <li>Read a book</li>
+                    <li>Organize office</li>
+                </ul> <br>
+                <h3 class="center">
+                    Reliability, Testing, and Quality Assurance
+                </h3>
+                <p class="text_left_alignment">
+                    In order to test and quality assure new features, the developers would use the following methods: <br>
+                    ~Functional testing~ <br>
+                    -Identify how the feature should interact. <br>
+                    -Test its resource intensivity. Adjust as needed. <br>
+                    -How the feature interacts with the rest of the application. <br>
+                    -How the feature works on different browsers & devices. <br>
+
+                    ~Usability testing~ <br>
+                    -Test how the feature works with edge cases. <br>
+                    -Check if any security flaws arise with the application <br>
+                    <br>
+                    In order to perform these kinds of testing, Selenium is a suitable match for the front end. 
+                    The development team can run the tests at high speeds, and get full coverage of the front end for what a user can interact with. <br>
+                    When it comes to backend, Pythons unit test module covers most bases, 
+                    and is much simpler to implement than other methods as the backend is already created in python.    
+                </p> <br>
+                <h4 class="center">
+                    Developing the application
+                </h4>
+                <p class="text_left_alignment">
+                    The timeline of Trumpter looked like this: <br>
+                    -Brainstorm the idea, <a href="https://drive.google.com/file/d/1z0q99zSp3C4vyL56ixfLLxQGhZSP_4vG/view">and develop it on paper</a> <br>
+                    -Find reliable sources for tweets. <br>
+                    -Develop a basic functional version of the website with only JS, HTML, and CSS. <br>
+                    -Refine the website's front end with more CSS.<br>
+                    -Start backend by creating a basic working session, where the client requests the HTML, Javascript, and CSS. <br>
+                    -Create a backend sql server, which contains tables for users, statistics, and trump/non trump tweets respectively. <br>
+                    -Break the HTML up into small templates, sent as required. <br>
+                    -Create a route for account creation/logins, and requesting tweets. <br>
+                    -Set up an SQLAlchemy request that gets a random tweet from one of the tweet tables. <br>
+                    -Add more tweets to the database. <br>
+                    -Adjust client side JS to request a new tweet each round. <br>
+                    -Create Jquery request for user statistics (not completely implemented by the due date). <br>
+                    <br>
+                    I had no issues working alongside Kyron, my group partner. Although this was the first time working together, 
+                    we had the same expectations for the assignment and dedicated an equal amount of time to executing it. <br>
+                    The only change I would make doing this in the future is adding more people to the group, 
+                    as although our website was fairly basic we ended up having some features come out of scope to get the assignment in on time. 
+                </p>
+            </div>
         </div>
     </div>
 </body>
